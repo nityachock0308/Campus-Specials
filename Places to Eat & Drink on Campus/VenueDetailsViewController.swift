@@ -53,11 +53,12 @@ class VenueDetailsViewController: UIViewController {
     
     func updateButtonStates() {
         let isLiked = venue!.isLiked
+        print("ISLIKED: ", isLiked)
         
         
         if isLiked {
-            likeButton.isSelected = isLiked
-            dislikeButton.isSelected = !isLiked
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+
         } else {
             likeButton.isSelected = false
             dislikeButton.isSelected = false
@@ -66,6 +67,7 @@ class VenueDetailsViewController: UIViewController {
 
     @IBAction func likeButtonTapped(_ sender: UIButton) {
         updateLikeStatus(true)
+        likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
     }
 
     @IBAction func dislikeButtonTapped(_ sender: UIButton) {

@@ -104,12 +104,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="hand.thumbsdown" catalog="system"/>
+                                <connections>
+                                    <action selector="dislikeButtonTapped:" destination="RUn-4P-iSt" eventType="touchUpInside" id="Zdb-7H-Hj6"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ChN-v3-SRk">
                                 <rect key="frame" x="122" y="669" width="50" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="hand.thumbsup" catalog="system"/>
+                                <connections>
+                                    <action selector="likeButtonTapped:" destination="RUn-4P-iSt" eventType="touchUpInside" id="8fD-RG-QMQ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XZQ-gn-B3Y"/>

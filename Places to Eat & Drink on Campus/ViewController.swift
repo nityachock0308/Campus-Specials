@@ -166,6 +166,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                                 }
                                 self.fetchData()
                             }
+                            //else, compared JSON venue to Core Data venue
+                            //if last modified newer on JSON, update core data
+                            
                            
                             
                             

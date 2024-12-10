@@ -230,66 +230,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     // MARK: - Utilities
 
-//    func saveVenueToCoreData(venueInfo: [Venue_Info]) {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-//        let context = appDelegate.persistentContainer.viewContext
-//        
-//        // Clear old data
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Venues1")
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//        do {
-//            try context.execute(deleteRequest)
-//        } catch {
-//            print("Error deleting old data: \(error)")
-//        }
-//        
-//        for venue in venueInfo {
-//            let venueEntity = Venues1(context: context)
-//            venueEntity.venueName = venue.name
-//            venueEntity.building = venue.building
-//            venueEntity.descriptionText = venue.description
-//            venueEntity.lat = venue.lat
-//            venueEntity.lon = venue.lon
-//            venueEntity.isLiked = false
-//        }
-//        
-//        do {
-//            try context.save()
-//        } catch {
-//            print("Error saving to Core Data: \(error)")
-//        }
-//    }
-//    
-//    func loadVenuesFromCoreData() {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-//        let context = appDelegate.persistentContainer.viewContext
-//        
-//        let fetchRequest: NSFetchRequest<Venues1> = Venues1.fetchRequest()
-//        
-//        do {
-//            let venueEntities = try context.fetch(fetchRequest)
-//            self.venues = venueEntities.map { venue in
-//                return Venue_Info(
-//                    name: venue.venueName ?? "",
-//                    building: venue.building ?? "",
-//                    lat: venue.lat ?? "",
-//                    lon: venue.lon ?? "",
-//                    description: venue.descriptionText ?? "",
-//                    opening_times: [],
-//                    amenities: nil,
-//                    photos: nil,
-//                    URL: nil,
-//                    last_modified: ""
-//                )
-//            }
-//            
-//            tableView.reloadData()
-//        } catch {
-//            print("Error loading data from Core Data: \(error)")
-//        }
-//    }
-//
-    
     
     func sortVenuesByDistance() {
         guard let userLocation = userLocation else { return }

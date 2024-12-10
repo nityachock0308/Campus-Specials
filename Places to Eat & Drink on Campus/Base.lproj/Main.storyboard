@@ -67,7 +67,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="nameLabel" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JaX-PZ-bdh">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="nameLabel" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaX-PZ-bdh">
                                 <rect key="frame" x="39" y="72" width="313" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -75,7 +75,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="buildingLabel" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QCD-ch-zAE">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="buildingLabel" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCD-ch-zAE">
                                 <rect key="frame" x="39" y="186" width="313" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -83,7 +83,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="descriptionLabel" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rzm-wA-9Oj">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="descriptionLabel" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rzm-wA-9Oj">
                                 <rect key="frame" x="39" y="287" width="313" height="158"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -91,7 +91,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="openingTimesLabel" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VeE-HO-pmG">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="openingTimesLabel" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeE-HO-pmG">
                                 <rect key="frame" x="39" y="466" width="313" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -99,17 +99,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dla-QV-w7D">
-                                <rect key="frame" x="82" y="708" width="54" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="hand.thumbsup" catalog="system"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctA-gA-8VV">
-                                <rect key="frame" x="170" y="717" width="50" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOV-Mp-nI6">
+                                <rect key="frame" x="222" y="669" width="50" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="hand.thumbsdown" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ChN-v3-SRk">
+                                <rect key="frame" x="122" y="669" width="50" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="hand.thumbsup" catalog="system"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XZQ-gn-B3Y"/>
@@ -119,6 +119,8 @@
                     <connections>
                         <outlet property="buildingLabel" destination="QCD-ch-zAE" id="HGh-on-xW2"/>
                         <outlet property="descriptionLabel" destination="rzm-wA-9Oj" id="wBn-2x-mt9"/>
+                        <outlet property="dislikeButton" destination="gOV-Mp-nI6" id="kk7-pe-bN2"/>
+                        <outlet property="likeButton" destination="ChN-v3-SRk" id="fld-iU-tZa"/>
                         <outlet property="nameLabel" destination="JaX-PZ-bdh" id="XLa-VD-FPk"/>
                         <outlet property="openingTimesLabel" destination="VeE-HO-pmG" id="1cy-0S-ys4"/>
                     </connections>

@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 struct FoodData: Codable {
     var food_venues : [ Venue_Info ]
@@ -31,6 +32,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapView: MKMapView!
+    
+    //var venues: [Venue_Info] = []
+    let locationManager = CLLocationManager()
+    var firstRun = true
+    var startTrackingTheUser = false
+    var userLocation: CLLocation?
+    var venuesCD: [Venues1] = []
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locationOfUser = locations[0] //this method returns an array of locations
@@ -77,64 +85,65 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         startTrackingTheUser = true
     }
     
-    var venues: [Venue_Info] = []
-    let locationManager = CLLocationManager()
-    var firstRun = true
-    var startTrackingTheUser = false
-    var userLocation: CLLocation?
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return venues.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
-        var content = UIListContentConfiguration.subtitleCell()
-        content.text = venues[indexPath.row].name
-        content.secondaryText = venues[indexPath.row].building
-        cell.contentConfiguration = content
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let venue = venues[indexPath.row]
-        if let latitude = Double(venue.lat), let longitude = Double(venue.lon) {
-            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            centerMapOnLocation(coordinate: coordinate, title: venue.name)
-        }
-    }
-    
-    
+    // MARK: View related Stuff
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+            
         // Make this view controller a delegate of the Location Manager, so that it
         //is able to call functions provided in this view controller.
         locationManager.delegate = self as CLLocationManagerDelegate
-        
+            
         //set the level of accuracy for the user's location.
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        
+   
         //Ask the location manager to request authorisation from the user. Note that this
         //only happens once if the user selects the "when in use" option. If the user
         //denies access, then your app will not be provided with details of the user's
         //location.
         locationManager.requestWhenInUseAuthorization()
-        
+            
         //Once the user's location is being provided then ask for updates when the user
         //moves around.
         locationManager.startUpdatingLocation()
-        
+            
         //configure the map to show the user's location (with a blue dot).
         mapView.delegate = self
         mapView.showsUserLocation = true
-        
+            
         tableView.delegate = self
         tableView.dataSource = self
-        
+            
         fetchVenueData()
     }
+    
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return venuesCD.count
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
+        var content = UIListContentConfiguration.subtitleCell()
+        content.text = venuesCD[indexPath.row].venueName
+        content.secondaryText = venuesCD[indexPath.row].building
+        cell.contentConfiguration = content
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let venue = venuesCD[indexPath.row]
+        if let latitude = Double(venue.lat!), let longitude = Double(venue.lon!) {
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            centerMapOnLocation(coordinate: coordinate, title: venue.venueName)
+            performSegue(withIdentifier: "showVenueDetails", sender: venue)
+        }
+    }
+    
     
     func fetchVenueData() {
         if let url = URL(string: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP228/eating_venues/data.json") {
@@ -144,11 +153,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     do {
                         let decoder = JSONDecoder()
                         let venuInfo = try decoder.decode(FoodData.self, from: jsonData)
-                        self.venues = venuInfo.food_venues
+                       // self.venues = venuInfo.food_venues
+                    
+                        
                         
                         DispatchQueue.main.async {
+                            self.fetchData()
+                            
+                            if self.venuesCD.count == 0 {
+                                for venue in venuInfo.food_venues {
+                                    self.save(venueName: venue.name, building: venue.building, amenities: venue.amenities ?? [], desc: venue.description, isLiked: false, lastMod: venue.last_modified, lat: venue.lat, lon: venue.lon, openTimes: venue.opening_times, url: venue.URL?.absoluteString ?? "")
+                                }
+                                self.fetchData()
+                            }
+                           
+                            
+                            
                             self.addVenueAnnotations()
                             self.tableView.reloadData()
+//                            self.saveVenueToCoreData(venueInfo: venuInfo.food_venues)
                         }
                     } catch let jsonErr {
                         print("Error decoding JSON", jsonErr)
@@ -159,11 +182,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     // MARK: - Map View
     func addVenueAnnotations() {
-        for venue in venues {
+        for venue in venuesCD {
             let annotation = MKPointAnnotation()
-            if let latitude = Double(venue.lat), let longitude = Double(venue.lon) {
+            if let latitude = Double(venue.lat!), let longitude = Double(venue.lon!) {
                 annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                annotation.title = venue.name
+                annotation.title = venue.venueName
                 annotation.subtitle = venue.building
                 mapView.addAnnotation(annotation)
             }
@@ -186,7 +209,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             print("Selected annotation: \(title ?? "")")
             
             // Find the corresponding venue based on the annotation's title
-            if let venueTitle = view.annotation?.title, let selectedVenue = venues.first(where: { $0.name == venueTitle }) {
+            if let venueTitle = view.annotation?.title, let selectedVenue = venuesCD.first(where: { $0.venueName == venueTitle }) {
                 // Perform the segue and pass the selected venue to the new view controller
                 performSegue(withIdentifier: "showVenueDetails", sender: selectedVenue)
             }
@@ -198,7 +221,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // Get the destination view controller
             if let destinationVC = segue.destination as? VenueDetailsViewController {
                 // Pass the selected venue to the destination view controller
-                if let selectedVenue = sender as? Venue_Info {
+                if let selectedVenue = sender as? Venues1 {
                     destinationVC.venue = selectedVenue
                 }
             }
@@ -206,13 +229,138 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     // MARK: - Utilities
+
+//    func saveVenueToCoreData(venueInfo: [Venue_Info]) {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+//        let context = appDelegate.persistentContainer.viewContext
+//        
+//        // Clear old data
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Venues1")
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//        do {
+//            try context.execute(deleteRequest)
+//        } catch {
+//            print("Error deleting old data: \(error)")
+//        }
+//        
+//        for venue in venueInfo {
+//            let venueEntity = Venues1(context: context)
+//            venueEntity.venueName = venue.name
+//            venueEntity.building = venue.building
+//            venueEntity.descriptionText = venue.description
+//            venueEntity.lat = venue.lat
+//            venueEntity.lon = venue.lon
+//            venueEntity.isLiked = false
+//        }
+//        
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Error saving to Core Data: \(error)")
+//        }
+//    }
+//    
+//    func loadVenuesFromCoreData() {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+//        let context = appDelegate.persistentContainer.viewContext
+//        
+//        let fetchRequest: NSFetchRequest<Venues1> = Venues1.fetchRequest()
+//        
+//        do {
+//            let venueEntities = try context.fetch(fetchRequest)
+//            self.venues = venueEntities.map { venue in
+//                return Venue_Info(
+//                    name: venue.venueName ?? "",
+//                    building: venue.building ?? "",
+//                    lat: venue.lat ?? "",
+//                    lon: venue.lon ?? "",
+//                    description: venue.descriptionText ?? "",
+//                    opening_times: [],
+//                    amenities: nil,
+//                    photos: nil,
+//                    URL: nil,
+//                    last_modified: ""
+//                )
+//            }
+//            
+//            tableView.reloadData()
+//        } catch {
+//            print("Error loading data from Core Data: \(error)")
+//        }
+//    }
+//
+    
+    
     func sortVenuesByDistance() {
         guard let userLocation = userLocation else { return }
-        venues.sort { venue1, venue2 in
-            let location1 = CLLocation(latitude: Double(venue1.lat) ?? 0, longitude: Double(venue1.lon) ?? 0)
-            let location2 = CLLocation(latitude: Double(venue2.lat) ?? 0, longitude: Double(venue2.lon) ?? 0)
+        venuesCD.sort { venue1, venue2 in
+            let location1 = CLLocation(latitude: Double(venue1.lat!) ?? 0, longitude: Double(venue1.lon!) ?? 0)
+            let location2 = CLLocation(latitude: Double(venue2.lat!) ?? 0, longitude: Double(venue2.lon!) ?? 0)
             return location1.distance(from: userLocation) < location2.distance(from: userLocation)
         }
         tableView.reloadData()
     }
+    
+    
+    
+    func fetchData() {
+       guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+          return
+       }
+
+       let managedContext = appDelegate.persistentContainer.viewContext
+       let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:"Venues1")
+
+       do {
+           venuesCD = try managedContext.fetch(fetchRequest) as! [Venues1]
+
+       } catch let error as NSError {
+          print("Could not fetch. \(error), \(error.userInfo)")
+       }
+    }
+    
+    func save(venueName: String, building: String, amenities: [String], desc: String, isLiked: Bool, lastMod: String, lat: String, lon: String, openTimes: [String], url: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let venue = NSEntityDescription.insertNewObject(forEntityName: "Venues1", into: managedContext) as! Venues1
+        
+//            contact.firstName = theFirstName
+//            contact.lastName = theLastName
+//            contact.telephoneNumber = theTelephoneNumber
+        
+        let openString = openTimes.joined(separator: "|")
+        
+        var amenString = ""
+        
+        if amenities.count != 0 {
+            amenString = amenities.joined(separator: "|")
+        }
+       
+        
+        venue.venueName = venueName
+        venue.building = building
+        venue.amenities = amenString
+        venue.descriptionText = desc
+        venue.isLiked = isLiked
+        venue.last_modified = lastMod
+        venue.lat = lat
+        venue.lon = lon
+        venue.opening_times = openString
+        venue.url = url
+        
+        
+        do {
+            try managedContext.save()
+            print("SAVED")
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    
+    
+    
 }

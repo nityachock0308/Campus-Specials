@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import CoreData
 
 class VenueDetailsViewController: UIViewController {
-    var venue: Venue_Info?
+    var venue: Venues1? = nil
     
    
     @IBOutlet weak var nameLabel: UITextView!
@@ -16,25 +17,29 @@ class VenueDetailsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet weak var openingTimesLabel: UITextView!
     
+    
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var dislikeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if let venue = venue {
-              nameLabel.text = venue.name
-              buildingLabel.text = venue.building
-            displayDesciption()
-              openingTimesLabel.text = venue.opening_times.joined(separator: ", ")
-          }
-        
+
+        nameLabel.text = venue!.venueName
+        buildingLabel.text = venue!.building
+        displayDesciption()
+        openingTimesLabel.text = venue!.opening_times
+
+        updateButtonStates()
     }
     
     func displayDesciption() {
-        if venue!.description.isEmpty {
+        if venue!.descriptionText!.isEmpty {
             descriptionLabel.text = "No description available"
                 return
         }
-        let descriptionHTML = venue!.description.data(using: .utf8)
+        let descriptionHTML = venue!.descriptionText?.data(using: .utf8)
         let attributedString = try? NSAttributedString(
             data: descriptionHTML!,
             options: [
@@ -46,6 +51,50 @@ class VenueDetailsViewController: UIViewController {
         descriptionLabel.attributedText = attributedString
     }
     
+    func updateButtonStates() {
+        let isLiked = venue!.isLiked
+        
+        
+        if isLiked {
+            likeButton.isSelected = isLiked
+            dislikeButton.isSelected = !isLiked
+        } else {
+            likeButton.isSelected = false
+            dislikeButton.isSelected = false
+        }
+    }
+
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        updateLikeStatus(true)
+    }
+
+    @IBAction func dislikeButtonTapped(_ sender: UIButton) {
+        updateLikeStatus(false)
+    }
+
+    func updateLikeStatus(_ isLiked: Bool) {
+        //venue.isLiked = isLiked
+        saveLikeStatusToCoreData(isLiked)
+        updateButtonStates()
+    }
+
+    func saveLikeStatusToCoreData(_ isLiked: Bool) {
+    //    guard let venueName = venue.venueName else { return }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+      //  let fetchRequest: NSFetchRequest<Venues1> = Venues1.fetchRequest()
+      //  fetchRequest.predicate = NSPredicate(format: "name == %@", venueName)
+        venue!.isLiked = isLiked
+        do {
+           // let fetchedVenues = try context.fetch(fetchRequest)
+           // if let coreDataVenue = fetchedVenues.first {
+              //  coreDataVenue.isLiked = isLiked
+                try context.save()
+          //  }
+        } catch {
+            print("Error updating like status: \(error)")
+        }
+    }
     // MARK: - Navigation
 
 }

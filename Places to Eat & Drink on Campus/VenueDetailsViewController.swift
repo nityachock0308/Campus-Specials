@@ -31,7 +31,15 @@ class VenueDetailsViewController: UIViewController {
         displayDesciption()
         openingTimesLabel.text = venue!.opening_times
 
-        updateButtonStates()
+        let isLiked = venue!.isLiked
+        if isLiked == "1" {
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+        } else if isLiked == "-1" {
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+        }
+        
+        
+        
     }
     
     func displayDesciption() {
@@ -51,47 +59,67 @@ class VenueDetailsViewController: UIViewController {
         descriptionLabel.attributedText = attributedString
     }
     
-    func updateButtonStates() {
-        let isLiked = venue!.isLiked
-        print("ISLIKED: ", isLiked)
-        
-        
-        if isLiked {
-            likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
-
-        } else {
-            likeButton.isSelected = false
-            dislikeButton.isSelected = false
-        }
-        
-        //if dislikeButton {
-           // dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
-        
-        }
-    }
 
     @IBAction func likeButtonTapped(_ sender: UIButton) {
-        updateLikeStatus(true)
-        likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+
+        let beforeUpdate = venue!.isLiked
+        if beforeUpdate == "1" {
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+        } else {
+            likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+        }
+        dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
+        
+        updateLikeStatus("1")
+        
+        
+        
+        
+        //likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
         
     }
 
     @IBAction func dislikeButtonTapped(_ sender: UIButton) {
-        updateLikeStatus(false)
-        dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+        let beforeUpdate = venue!.isLiked
+        if beforeUpdate == "-1" {
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown"), for: .normal)
+        } else {
+            dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+        }
+        likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
+        
+        
+        updateLikeStatus("-1")
+     //   dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
     }
 
-    func updateLikeStatus(_ isLiked: Bool) {
+    func updateLikeStatus(_ isLiked: String) {
         //venue.isLiked = isLiked
         saveLikeStatusToCoreData(isLiked)
-        updateButtonStates()
+       // updateButtonStates()
     }
 
-    func saveLikeStatusToCoreData(_ isLiked: Bool) {
+    func saveLikeStatusToCoreData(_ isLiked: String) {
     //    guard let venueName = venue.venueName else { return }
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
-        venue!.isLiked = isLiked
+        
+        //if neutral or disliked but like pressed, its got to be 1
+        //but if its already liked, and like it pressed, it should be 0
+        
+    
+        
+        if venue!.isLiked == isLiked {
+            venue!.isLiked = "0"
+        } else {
+            venue!.isLiked = isLiked
+        }
+        
+        
+        //venue!.isLiked = isLiked
+        
+        
+        
         do {
                 try context.save()
         } catch {

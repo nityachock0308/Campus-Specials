@@ -131,6 +131,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         var content = UIListContentConfiguration.subtitleCell()
         content.text = venuesCD[indexPath.row].venueName
         content.secondaryText = venuesCD[indexPath.row].building
+        
+        
+        let isLiked = venuesCD[indexPath.row].isLiked
+        
+        if isLiked == "1" {
+            content.image = UIImage(systemName: "hand.thumbsup.fill")
+        } else if isLiked == "-1" {
+            content.image = UIImage(systemName: "hand.thumbsdown.fill")
+        }
+        
+        //content.image = UIImage(systemName: "SOMETHING")
+        
+        
+        
         cell.contentConfiguration = content
         return cell
     }

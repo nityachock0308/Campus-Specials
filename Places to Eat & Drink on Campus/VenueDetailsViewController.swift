@@ -68,10 +68,12 @@ class VenueDetailsViewController: UIViewController {
     @IBAction func likeButtonTapped(_ sender: UIButton) {
         updateLikeStatus(true)
         likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
+        
     }
 
     @IBAction func dislikeButtonTapped(_ sender: UIButton) {
         updateLikeStatus(false)
+        /* MAKE DISLIKED */
     }
 
     func updateLikeStatus(_ isLiked: Bool) {
@@ -84,8 +86,6 @@ class VenueDetailsViewController: UIViewController {
     //    guard let venueName = venue.venueName else { return }
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
-      //  let fetchRequest: NSFetchRequest<Venues1> = Venues1.fetchRequest()
-      //  fetchRequest.predicate = NSPredicate(format: "name == %@", venueName)
         venue!.isLiked = isLiked
         do {
            // let fetchedVenues = try context.fetch(fetchRequest)

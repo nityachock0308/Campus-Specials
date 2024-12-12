@@ -72,11 +72,6 @@ class VenueDetailsViewController: UIViewController {
         
         updateLikeStatus("1")
         
-        
-        
-        
-        //likeButton.setImage(UIImage(systemName: "hand.thumbsup.fill"), for: .normal)
-        
     }
 
     @IBAction func dislikeButtonTapped(_ sender: UIButton) {

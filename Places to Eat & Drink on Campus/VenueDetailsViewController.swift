@@ -83,9 +83,7 @@ class VenueDetailsViewController: UIViewController {
         }
         likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
         
-        
         updateLikeStatus("-1")
-     //   dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
     }
 
     func updateLikeStatus(_ isLiked: String) {

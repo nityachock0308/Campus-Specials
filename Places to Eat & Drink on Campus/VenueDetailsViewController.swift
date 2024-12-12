@@ -88,11 +88,7 @@ class VenueDetailsViewController: UIViewController {
         let context = appDelegate.persistentContainer.viewContext
         venue!.isLiked = isLiked
         do {
-           // let fetchedVenues = try context.fetch(fetchRequest)
-           // if let coreDataVenue = fetchedVenues.first {
-              //  coreDataVenue.isLiked = isLiked
                 try context.save()
-          //  }
         } catch {
             print("Error updating like status: \(error)")
         }

@@ -73,7 +73,7 @@ class VenueDetailsViewController: UIViewController {
 
     @IBAction func dislikeButtonTapped(_ sender: UIButton) {
         updateLikeStatus(false)
-        /* MAKE DISLIKED */
+        dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
     }
 
     func updateLikeStatus(_ isLiked: Bool) {

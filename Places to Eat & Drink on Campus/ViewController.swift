@@ -162,7 +162,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                             
                             if self.venuesCD.count == 0 {
                                 for venue in venuInfo.food_venues {
-                                    self.save(venueName: venue.name, building: venue.building, amenities: venue.amenities ?? [], desc: venue.description, isLiked: false, /* MAKE DISLIKED */ lastMod: venue.last_modified, lat: venue.lat, lon: venue.lon, openTimes: venue.opening_times, url: venue.URL?.absoluteString ?? "")
+                                    self.save(venueName: venue.name, building: venue.building, amenities: venue.amenities ?? [], desc: venue.description, isLiked: "0", /* MAKE DISLIKED */ lastMod: venue.last_modified, lat: venue.lat, lon: venue.lon, openTimes: venue.opening_times, url: venue.URL?.absoluteString ?? "")
                                 }
                                 self.fetchData()
                             }
@@ -262,7 +262,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
        }
     }
     
-    func save(venueName: String, building: String, amenities: [String], desc: String, isLiked: Bool, /* MAKE DISLIKED */ lastMod: String, lat: String, lon: String, openTimes: [String], url: String) {
+    func save(venueName: String, building: String, amenities: [String], desc: String, isLiked: String, /* MAKE DISLIKED */ lastMod: String, lat: String, lon: String, openTimes: [String], url: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }

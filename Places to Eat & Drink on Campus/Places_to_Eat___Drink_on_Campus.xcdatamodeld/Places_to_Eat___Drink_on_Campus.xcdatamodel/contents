@@ -4,7 +4,7 @@
         <attribute name="amenities" optional="YES" attributeType="String"/>
         <attribute name="building" optional="YES" attributeType="String"/>
         <attribute name="descriptionText" optional="YES" attributeType="String"/>
-        <attribute name="isLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isLiked" optional="YES" attributeType="String"/>
         <attribute name="last_modified" optional="YES" attributeType="String"/>
         <attribute name="lat" optional="YES" attributeType="String"/>
         <attribute name="lon" optional="YES" attributeType="String"/>

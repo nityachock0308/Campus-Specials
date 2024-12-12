@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B0741612D08AF180005F0CA /* Venues1+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B07415F2D08AF180005F0CA /* Venues1+CoreDataClass.swift */; };
-		5B0741622D08AF180005F0CA /* Venues1+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0741602D08AF180005F0CA /* Venues1+CoreDataProperties.swift */; };
+		5B3CC6982D0B369A0023C210 /* Venues1+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CC6972D0B369A0023C210 /* Venues1+CoreDataProperties.swift */; };
+		5B3CC6992D0B369A0023C210 /* Venues1+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CC6962D0B369A0023C210 /* Venues1+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5B07415F2D08AF180005F0CA /* Venues1+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Venues1+CoreDataClass.swift"; sourceTree = "<group>"; };
-		5B0741602D08AF180005F0CA /* Venues1+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Venues1+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5B3CC6962D0B369A0023C210 /* Venues1+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Venues1+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5B3CC6972D0B369A0023C210 /* Venues1+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Venues1+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5BC85A8D2CFA00AD000ED496 /* Places to Eat & Drink on Campus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Places to Eat & Drink on Campus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -52,8 +52,8 @@
 		5BC85A842CFA00AD000ED496 = {
 			isa = PBXGroup;
 			children = (
-				5B07415F2D08AF180005F0CA /* Venues1+CoreDataClass.swift */,
-				5B0741602D08AF180005F0CA /* Venues1+CoreDataProperties.swift */,
+				5B3CC6962D0B369A0023C210 /* Venues1+CoreDataClass.swift */,
+				5B3CC6972D0B369A0023C210 /* Venues1+CoreDataProperties.swift */,
 				5BC85A8F2CFA00AD000ED496 /* Places to Eat & Drink on Campus */,
 				5BC85A8E2CFA00AD000ED496 /* Products */,
 			);
@@ -141,8 +141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B0741612D08AF180005F0CA /* Venues1+CoreDataClass.swift in Sources */,
-				5B0741622D08AF180005F0CA /* Venues1+CoreDataProperties.swift in Sources */,
+				5B3CC6982D0B369A0023C210 /* Venues1+CoreDataProperties.swift in Sources */,
+				5B3CC6992D0B369A0023C210 /* Venues1+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

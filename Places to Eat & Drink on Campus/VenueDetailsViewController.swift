@@ -63,6 +63,11 @@ class VenueDetailsViewController: UIViewController {
             likeButton.isSelected = false
             dislikeButton.isSelected = false
         }
+        
+        //if dislikeButton {
+           // dislikeButton.setImage(UIImage(systemName: "hand.thumbsdown.fill"), for: .normal)
+        
+        }
     }
 
     @IBAction func likeButtonTapped(_ sender: UIButton) {
